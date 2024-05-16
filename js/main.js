@@ -1,45 +1,60 @@
-const API_KEY = "ajyqP5cIAPa5zzom9Z8pCt17IlMruGq5";
-const URL =`https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&limit=1&q=` 
+const API_KEY = "2C0a6Mcv9ZDxRPEnN7vGFkt3bXFasVz6";
+
+let btnSearch = document.getElementById('btnSearch');
+let inputSearch = document.getElementById('search');
+
+let createGif = () => {
+  let searchValue = document.getElementById('search').value;
+
+  let gifLimit = 30;
+
+  let apiKeyUrl = `https://api.giphy.com/v1/gifs/search?api_key=${API_KEY}&q=${searchValue}&limit=${gifLimit}`;
+  document.querySelector(".card").innerHTML = "";
 
 
-// const API_TOKEN = "ajyqP5cIAPa5zzom9Z8pCt17IlMruGq5";
-// const API = "https://api.giphy.com/v1/gifs/search?api_key=" + API_TOKEN;
-// const TRENDING_API =
-//   "https://api.giphy.com/v1/gifs/trending?api_key=" +
-//   API_TOKEN +
-//   "&limit=25&offset=0&rating=g&bundle=messaging_non_clips";
+// вызов ключа
+  fetch(apiKeyUrl)
+    .then((result) => result.json())
+    .then((info) => {
+      console.log(info.data)
 
-// function render() {
-//   let container = document.querySelector(".container");
-//   let apiQuery = TRENDING_API;
-//   container.innerHTML = "";
-//   let inpValue = document.querySelector("#searchInp").value;
-//   if (inpValue) {
-//     apiQuery =
-//       API +
-//       "&q=" +
-//       inpValue +
-//       "&limit=25&offset=0&rating=g&lang=en&bundle=messaging_non_clips";
-//   }
-//   fetch(apiQuery)
-//     .then((result) => result.json())
-//     .then((data) => {
-//       console.log(data.data);
-//       data.data.forEach((item) => {
-//         container.innerHTML += ` 
-//           <div class="card">
-//           <img style="width:24rem;height:18rem"  src="${item.images.original.url}" alt="img">
-//         </div>`;
-//       });
-//     });
-// }
-// render();
+    
+      let gifsData = info.data;
+      gifsData.forEach((gif) => {
+        
+        //   создаем card gif
+          let container = document.createElement("div");
+          container.classList.add("container");
+          let iframe = document.createElement("img");
+          console.log(gif);
+          iframe.setAttribute("src", gif.images.downsized_medium.url);
+          iframe.onload = () => {
+            gifLimit--;
+            if(gifLimit == 0) {
+              document.querySelector(".card").style.
+              display = "grid";
+            }
+          };
+          container.append(iframe);
 
-// let search_btn = document.querySelector(".search-btn");
-// search_btn.addEventListener("click", () => {
-//   render();
-// });
-// let inpValue = document.querySelector("#searchInp");
-// inpValue.addEventListener("change", () => {
-//   render();
-// });
+          document.querySelector(".card").append(container);
+      });
+    });
+    
+}
+
+// нажатия на btn and enter
+btnSearch.addEventListener("click", createGif);
+inputSearch.addEventListener("keypress", async event => {
+    if (event.key === "Enter") {
+        createGif();
+    }
+});
+
+
+
+
+
+
+
+
