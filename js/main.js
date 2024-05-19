@@ -53,31 +53,9 @@ inputSearch.addEventListener("keypress", async event => {
     }
 });
 
-const handleClickSearch = async (input, search) => {
-  const btnSearch = input.value.trim();
-  if (btnSearch.length > 1) {
-      const searchData = await search(btnSearch);
-      return searchData.data.data;
-  }
- 
-  const randomData = await search(`Frontend`);
-  return randomData.data.data;
-};
 
-// Пример вызова функции:
-// Предполагается, что input и search доступны в контексте вызова
-// const result = await handleClickSearch(inputElement, searchFunction);
 
-// const handleClickSearch = async () => {
-//   const btnSearch = input.value.trim();
-//   if (btnSearch.length > 1) {
-//       const searchData = await search(btnSearch);
-//       return searchData.data.data;
-//   }
- 
-//   const randomData = await search(`Frontend`);
-//   return randomData.data.data;
-// };
+
 
 
 
